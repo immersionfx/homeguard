@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HOMEGUARD — Multi-Device Wellbeing Dashboard</title>
+    <link rel="stylesheet" href="./src/dashboard.css" />
+</head>
+
+<body>
+    <!-- 1. Permanent Integration Mode Bar (§3 Master Prompt) -->
+    <aside class="mode-bar">
+        <div class="mode-bar-content">
+            <span class="mode-item"><span class="mode-tag mode-sim">Alexa+</span> SIMULATED (web app agentic client)</span>
+            <span class="mode-sep">·</span>
+            <span class="mode-item"><span class="mode-tag mode-sim">Alexa voice I/O</span> SIMULATED (browser TTS/STT)</span>
+            <span class="mode-sep">·</span>
+            <span class="mode-item"><span class="mode-tag mode-real">MCP</span> REAL (official SDK, /mcp)</span>
+            <span class="mode-sep">·</span>
+            <span class="mode-item"><span class="mode-tag mode-mock">Ring</span> SIMULATOR / MOCK (entrance only)</span>
+            <span class="mode-sep">·</span>
+            <span class="mode-item"><span class="mode-tag mode-sim">Fire TV</span> SIMULATOR (10-foot shell)</span>
+            <span class="mode-sep">·</span>
+            <span class="mode-item"><span class="mode-tag mode-mock">Bee</span> MOCK (US hardware constraint)</span>
+            <span class="mode-sep">·</span>
+            <span class="mode-item"><span class="mode-tag mode-mock">Calendar</span> MOCK</span>
+            <span class="mode-sep">·</span>
+            <span class="mode-item"><span class="mode-tag mode-sim">Caregiver phone</span> SIMULATED view</span>
+        </div>
+    </aside>
+
+    <div class="app-layout">
+        <!-- 2. Header & Scenario Runner Bar -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <div class="brand">
+                    <span class="brand-shield">🛡️</span>
+                    <h1>HOMEGUARD</h1>
+                    <span class="brand-subtitle">Alexa+ Agentic Routine Reasoning</span>
+                </div>
+            </div>
+
+            <!-- Scenario Switcher (§8 Core Scenarios) -->
+            <div class="scenario-toolbar">
+                <span class="scenario-label">Scenario:</span>
+                <div class="scenario-buttons">
+                    <button class="scenario-btn active" id="btn-scen-a" data-scen="A">
+                        <strong>A</strong> · Quiet afternoon <span class="scen-badge-green">Harmless</span>
+                    </button>
+                    <button class="scenario-btn" id="btn-scen-b" data-scen="B">
+                        <strong>B</strong> · Sudden stop <span class="scen-badge-red">Incident</span>
+                    </button>
+                    <button class="scenario-btn" id="btn-scen-c1" data-scen="C1">
+                        <strong>C1</strong> · Physiotherapy <span class="scen-badge-blue">Explained</span>
+                    </button>
+                    <button class="scenario-btn" id="btn-scen-c2" data-scen="C2">
+                        <strong>C2</strong> · Silent Thursday <span class="scen-badge-yellow">Soft Check-in</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Accelerated Clock & Playback -->
+            <div class="playback-controls">
+                <div class="clock-display">
+                    <span class="clock-time" id="virtual-clock">14:05:00</span>
+                    <span class="clock-context" id="clock-context">Monday Afternoon</span>
+                </div>
+                <button class="ctrl-btn" id="btn-step" title="Advance step in scenario">Step ▶</button>
+                <button class="ctrl-btn btn-reset" id="btn-reset" title="Reset scenario">↺ Reset</button>
+            </div>
+        </header>
+
+        <!-- 3. Three-Pane Master Layout (§16 Pitch Alignment) -->
+        <main class="dashboard-panes">
+            <!-- ============================================ -->
+            <!-- PANE 1: MARIA'S HOME (All devices live here) -->
+            <!-- ============================================ -->
+            <section class="pane pane-home">
+                <div class="pane-header">
+                    <div class="pane-title">
+                        <h2>Maria's Home</h2>
+                        <span class="pane-caption">All devices live here · Maria never opens HomeGuard</span>
+                    </div>
+                    <!-- Active Device Lanes (§12) -->
+                    <div class="device-lanes">
+                        <span class="lane-chip" id="lane-alexa">Echo 🔵</span>
+                        <span class="lane-chip" id="lane-firetv">Fire TV 📺</span>
+                        <span class="lane-chip" id="lane-ring">Ring 🚪</span>
+                        <span class="lane-chip" id="lane-bee">Bee* ⌚</span>
+                        <span class="lane-chip" id="lane-calendar">Calendar* 📅</span>
+                    </div>
+                </div>
+
+                <div class="home-devices-grid">
+                    <!-- Device 1: Echo / Alexa+ Widget -->
+                    <div class="device-box echo-box">
+                        <div class="box-header">
+                            <h4>Echo Dot (Alexa+)</h4>
+                            <span class="channel-tag">1st Check-in (Voice 45s)</span>
+                        </div>
+                        <div class="echo-widget">
+                            <div class="mini-light-ring ring-idle" id="mini-ring">
+                                <div class="mini-echo-center">🎙️</div>
+                            </div>
+                            <div class="echo-prompt-preview">
+                                <span class="voice-status" id="voice-status-text">Idle · Baseline Signal Active</span>
+                                <p class="voice-quote" id="voice-quote-text">"Maria, are you okay?"</p>
+                                <div class="quick-reply-row">
+                                    <button class="mini-pill" id="btn-home-fine">Reply: "I'm fine"</button>
+                                    <button class="mini-pill pill-danger" id="btn-home-help">Reply: "Help"</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Device 2: Fire TV Screen Preview -->
+                    <div class="device-box firetv-box">
+                        <div class="box-header">
+                            <h4>Living Room Fire TV</h4>
+                            <span class="channel-tag">2nd Check-in (Screen 75s)</span>
+                        </div>
+                        <div class="tv-screen-preview" id="tv-preview">
+                            <div class="tv-ambient-view" id="tv-view-ambient">
+                                <div class="tv-mini-clock">14:05</div>
+                                <div class="tv-mini-card">📺 Fire TV Playing: BBC History · Routine Active</div>
+                            </div>
+                            <div class="tv-overlay-view hidden" id="tv-view-overlay">
+                                <div class="tv-alert-title">Everything OK?</div>
+                                <div class="tv-alert-sub">We noticed your evening is different today.</div>
+                                <div class="tv-buttons-preview">
+                                    <span class="tv-btn tv-btn-ok">I'M OK</span>
+                                    <span class="tv-btn tv-btn-help">I NEED HELP</span>
+                                </div>
+                                <div class="tv-hint">🔘 Remote OK or 🎙️ Say: "I'm fine"</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Device 3: Ring Entrance Camera -->
+                    <div class="device-box ring-box">
+                        <div class="box-header">
+                            <h4>Ring Entrance Camera</h4>
+                            <span class="channel-tag" id="ring-presence-badge">🟢 Home (Since 12:10)</span>
+                        </div>
+                        <div class="ring-view-body">
+                            <div class="ring-snapshot-box" id="ring-snapshot-box">
+                                <div class="snapshot-placeholder" id="snapshot-placeholder">
+                                    <div class="camera-icon">🚪</div>
+                                    <span class="camera-status-text" id="camera-status-text">Entrance Camera Idle (Privacy Protected)</span>
+                                    <span class="camera-gate-hint">Snapshot opens ONLY if both check-ins unanswered</span>
+                                </div>
+                                <div class="snapshot-image-container hidden" id="snapshot-image-container">
+                                    <div class="snapshot-watermark">MOCK FRONT DOOR SNAPSHOT</div>
+                                    <div class="snapshot-silh">🚪 [Front Door Closed · Nobody Outside]</div>
+                                    <div class="snapshot-audit" id="snapshot-audit-label">Accessed 14:34:20 · Reason: check-ins unanswered</div>
+                                </div>
+                            </div>
+                            <div class="ring-sim-controls">
+                                <button class="ring-action-btn" id="btn-ring-dep">Simulate Departure (08:50)</button>
+                                <button class="ring-action-btn" id="btn-ring-ret">Simulate Return (12:10)</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Signal Context Bar (Bee & Calendar) -->
+                    <div class="context-signals-bar">
+                        <div class="context-item">
+                            <span class="context-label">Bee Wearable (Mock):</span>
+                            <strong id="bee-status-val">Active / Moving</strong>
+                        </div>
+                        <div class="context-item">
+                            <span class="context-label">Calendar Context (Mock):</span>
+                            <strong id="cal-status-val">No appointment scheduled</strong>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- PANE 2: AGENT TRACE & ESCALATION LADDER      -->
+            <!-- ============================================ -->
+            <section class="pane pane-agent">
+                <div class="pane-header">
+                    <div class="pane-title">
+                        <h2>Agent Reasoning</h2>
+                        <span class="pane-caption">Real-time decisions via /mcp · Policy thresholds</span>
+                    </div>
+                    <div class="agent-mode-chip">Autonomous Reasoning Loop</div>
+                </div>
+
+                <!-- Escalation Ladder Component (§12) -->
+                <div class="escalation-ladder" id="ladder">
+                    <div class="ladder-step step-active" id="step-l0" data-level="0">
+                        <div class="step-num">L0</div>
+                        <div class="step-info">
+                            <div class="step-name">Observe</div>
+                            <div class="step-desc">Passive sensor & baseline evaluation</div>
+                        </div>
+                    </div>
+                    <div class="ladder-step" id="step-l1" data-level="1">
+                        <div class="step-num">L1</div>
+                        <div class="step-info">
+                            <div class="step-name">Verify</div>
+                            <div class="step-desc">Alexa Voice (45s) → Fire TV Overlay (75s)</div>
+                        </div>
+                    </div>
+                    <div class="ladder-step" id="step-l2" data-level="2">
+                        <div class="step-num">L2</div>
+                        <div class="step-info">
+                            <div class="step-name">Gather Context</div>
+                            <div class="step-desc">Ring Gated Snapshot (Privacy Gate)</div>
+                        </div>
+                    </div>
+                    <div class="ladder-step" id="step-l3" data-level="3">
+                        <div class="step-num">L3</div>
+                        <div class="step-info">
+                            <div class="step-name">Contact Caregiver</div>
+                            <div class="step-desc">notify_caregiver → My Phone</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Explainable Deviation & Confidence -->
+                <div class="deviation-box">
+                    <div class="dev-header">
+                        <span class="dev-title">Current Deviation Score</span>
+                        <span class="dev-severity severity-low" id="dev-severity-badge">LOW</span>
+                    </div>
+                    <div class="confidence-bar-wrapper">
+                        <div class="confidence-bar">
+                            <div class="confidence-fill fill-low" id="confidence-fill" style="width: 15%"></div>
+                        </div>
+                        <div class="confidence-labels">
+                            <span>0.0</span>
+                            <span class="thresh-line">Low (0.6)</span>
+                            <span class="thresh-line">High (0.8)</span>
+                            <span class="confidence-val" id="confidence-val">0.15</span>
+                        </div>
+                    </div>
+
+                    <!-- Explainable Reasons Array (Verbatim from Behavior Engine) -->
+                    <div class="reasons-list">
+                        <div class="reasons-label">Explainable Reasons:</div>
+                        <ul id="reasons-ul">
+                            <li>Activity is consistent with the usual pattern. Nothing to report.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Agent Next Action Decided by Policy -->
+                    <div class="action-decision">
+                        <span>Policy Decision:</span>
+                        <strong id="agent-action-badge">NO_ACTION</strong>
+                    </div>
+                </div>
+
+                <!-- Live MCP Tool Call Trace -->
+                <div class="mcp-trace-panel">
+                    <div class="trace-header">
+                        <span>Real MCP Tool Activity Log</span>
+                        <span class="trace-badge">Streamable HTTP /mcp</span>
+                    </div>
+                    <div class="trace-stream" id="trace-stream">
+                        <div class="trace-row">
+                            <span class="trace-t">14:05:00</span>
+                            <span class="trace-tool">get_behavior_deviation</span>
+                            <span class="trace-res">confidence: 0.15 → NO_ACTION</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================ -->
+            <!-- PANE 3: My PHONE (Caregiver Frame)       -->
+            <!-- ============================================ -->
+            <section class="pane pane-phone">
+                <div class="pane-header">
+                    <div class="pane-title">
+                        <h2>My Phone</h2>
+                        <span class="pane-caption">SIMULATED view of real notify_caregiver output</span>
+                    </div>
+                    <div class="phone-tabs">
+                        <button class="tab-btn active" id="tab-btn-today">Today</button>
+                        <button class="tab-btn" id="tab-btn-notif">Alert</button>
+                        <button class="tab-btn" id="tab-btn-detail">Why</button>
+                    </div>
+                </div>
+
+                <!-- Smartphone Shell Frame -->
+                <div class="smartphone-frame">
+                    <div class="phone-notch">
+                        <div class="phone-speaker"></div>
+                        <div class="phone-lens"></div>
+                    </div>
+
+                    <div class="phone-screen" id="phone-screen">
+                        <!-- Screen 1: Today Screen (Peaceful / Quiet Day) -->
+                        <div class="phone-view view-today" id="view-today">
+                            <div class="phone-topbar">
+                                <span>9:41</span>
+                                <span>5G 🔋</span>
+                            </div>
+                            <div class="phone-app-header">
+                                <h3>HomeGuard</h3>
+                                <span class="status-indicator-green" id="phone-status-dot">● Normal</span>
+                            </div>
+                            <div class="phone-card">
+                                <h4>Mom (Maria) · Today</h4>
+                                <div class="peace-badge" id="phone-peace-badge">🟢 No action required</div>
+                                <p class="peace-sub" id="phone-peace-sub">Everything aligns with her 30-day baseline.</p>
+                            </div>
+                            <div class="phone-checklist">
+                                <div class="checklist-title">Today's Timeline:</div>
+                                <div class="check-item" id="phone-item-wake"><span>07:48</span> Morning wake detected</div>
+                                <div class="check-item" id="phone-item-alexa"><span>08:10</span> Alexa morning greeting</div>
+                                <div class="check-item" id="phone-item-tv"><span>13:40</span> Fire TV active</div>
+                                <div class="check-item" id="phone-item-note"><span>Status</span> Quiet afternoon inside normal band</div>
+                            </div>
+                        </div>
+
+                        <!-- Screen 2: Lockscreen Notification -->
+                        <div class="phone-view view-notif hidden" id="view-notif">
+                            <div class="lock-clock">14:34</div>
+                            <div class="lock-date">Wednesday, October 3</div>
+                            <div class="push-notification" id="push-notification">
+                                <div class="push-header">
+                                    <span class="push-app">HOMEGUARD</span>
+                                    <span class="push-time">Now</span>
+                                </div>
+                                <div class="push-title" id="push-title">Maria hasn't responded to check-ins</div>
+                                <div class="push-body" id="push-body">
+                                    Activity stopped suddenly at 2:32 PM, and no one has left the house.
+                                </div>
+                                <div class="push-hint">Tap to view situation & camera log</div>
+                            </div>
+                        </div>
+
+                        <!-- Screen 3: "Why I'm Checking on Maria" Detail Screen -->
+                        <div class="phone-view view-detail hidden" id="view-detail">
+                            <div class="detail-header">
+                                <button class="back-link" id="btn-back-phone">← Back</button>
+                                <h4>Why I'm checking</h4>
+                            </div>
+                            <div class="detail-content">
+                                <div class="detail-summary-card">
+                                    <div class="detail-headline" id="detail-headline">Maria hasn't responded to 2 check-ins</div>
+                                    <div class="detail-conf" id="detail-conf">Confidence: HIGH (0.88)</div>
+                                </div>
+
+                                <div class="detail-section">
+                                    <h5>Reasons Observed:</h5>
+                                    <ul class="detail-reasons-list" id="detail-reasons">
+                                        <li>Sudden inactivity detected at home</li>
+                                        <li>Fire TV input stopped unexpectedly</li>
+                                        <li>No response to Alexa voice or Fire TV check-ins</li>
+                                    </ul>
+                                </div>
+
+                                <div class="detail-section">
+                                    <h5>Camera Access Audit (Gate):</h5>
+                                    <div class="detail-camera-card">
+                                        <div class="camera-log-text" id="detail-camera-text">Camera accessed 14:34:20 — reason: no response to 2 check-ins. Front door confirmed empty.</div>
+                                        <div class="detail-snapshot-thumb">
+                                            <span>🚪 MOCK SNAPSHOT</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="detail-actions">
+                                    <button class="action-phone-btn btn-call" id="btn-phone-call">📞 Call Maria</button>
+                                    <button class="action-phone-btn btn-ack" id="btn-phone-ack">✓ Acknowledge</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script type="module" src="./src/main.ts"></script>
+</body>
+
+</html>

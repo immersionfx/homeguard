@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HOMEGUARD — Fire TV Shell</title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="./src/tvShell.css" />
+  </head>
+  <body>
+    <div class="tv-workspace">
+      <!-- 10-foot TV Viewport -->
+      <main class="tv-display-container">
+        <!-- TV Top Bar (Overscan Safe) -->
+        <header class="tv-topbar">
+          <div class="tv-logo-group">
+            <span class="firetv-badge">Fire TV</span>
+            <span class="tv-brand">HOMEGUARD</span>
+            <span class="tv-mode-badge" id="integration-mode">SIMULATOR</span>
+          </div>
+
+          <div class="tv-status-cluster">
+            <div class="status-chip">
+              MCP Server: <strong id="mcp-server-status">Connecting…</strong>
+            </div>
+            <div class="status-chip">
+              Device: <strong>Living Room TV (1080p)</strong>
+            </div>
+          </div>
+        </header>
+
+        <!-- TV Ambient / Idle Screen -->
+        <section id="ambient-screen" class="tv-screen">
+          <div class="ambient-content">
+            <h1 class="ambient-clock" id="tv-clock">19:31</h1>
+            <p class="ambient-date" id="tv-date">Monday, September 7</p>
+
+            <div class="ambient-card">
+              <div class="resident-avatar">❤️</div>
+              <div class="card-info">
+                <h3>Maria (78) · Living Room</h3>
+                <p>
+                  <span class="pulse-dot"></span>
+                  HOMEGUARD Routine Monitoring Active · Baseline: Evening Walk
+                </p>
+              </div>
+            </div>
+
+            <button id="btn-test-checkin" class="ambient-prompt" tabindex="0">
+              <span>🔔</span>
+              <span>Test Routine Check-in (or press SELECT on remote)</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Check-in Overlay Screen (Embedded MCP App) -->
+        <section id="checkin-screen" class="checkin-container hidden">
+          <iframe
+            id="checkin-iframe"
+            class="checkin-iframe"
+            sandbox="allow-scripts allow-same-origin allow-forms"
+            title="HOMEGUARD Check-in Screen"
+          ></iframe>
+        </section>
+      </main>
+
+      <!-- Fire TV Alexa Voice Remote Simulator Sidebar -->
+      <aside class="tv-simulator-panel">
+        <div class="sim-header">
+          <h2 class="sim-title">Fire TV Remote</h2>
+          <p class="sim-subtitle">Interactive D-pad Controller</p>
+        </div>
+
+        <div class="firetv-remote">
+          <!-- Voice Button -->
+          <button id="remote-btn-voice" class="remote-voice-btn" title="Alexa Voice">
+            🎙️
+          </button>
+
+          <!-- D-pad Navigation Ring -->
+          <div class="remote-dpad">
+            <button id="remote-btn-up" class="dpad-btn dpad-up" title="Up">▲</button>
+            <button id="remote-btn-down" class="dpad-btn dpad-down" title="Down">▼</button>
+            <button id="remote-btn-left" class="dpad-btn dpad-left" title="Left">◀</button>
+            <button id="remote-btn-right" class="dpad-btn dpad-right" title="Right">▶</button>
+            <button id="remote-btn-select" class="dpad-select" title="Select / OK">
+              SELECT
+            </button>
+          </div>
+
+          <!-- Back & Home Rows -->
+          <div class="remote-row">
+            <button id="remote-btn-back" class="remote-pill-btn" title="Back (Esc)">
+              ↩ Back
+            </button>
+            <button id="remote-btn-home" class="remote-pill-btn" title="Home">
+              ⌂ Home
+            </button>
+            <button id="remote-btn-menu" class="remote-pill-btn" title="Menu">
+              ☰
+            </button>
+          </div>
+        </div>
+
+        <!-- TV Key Navigation Guide -->
+        <div class="sim-guide">
+          <h4>Physical Keyboard Controls</h4>
+          <div class="sim-guide-list">
+            <div class="guide-item">
+              <span>D-pad Navigation</span>
+              <span class="guide-key">↑ ↓ ← →</span>
+            </div>
+            <div class="guide-item">
+              <span>Select / OK</span>
+              <span class="guide-key">Enter / Space</span>
+            </div>
+            <div class="guide-item">
+              <span>Back</span>
+              <span class="guide-key">Esc / Backspace</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

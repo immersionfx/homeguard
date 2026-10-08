@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true
+  },
+  "files": [],
+  "references": [
+    { "path": "packages/event-model" },
+    { "path": "services/policy" },
+    { "path": "services/behavior-engine" },
+    { "path": "adapters/bee" },
+    { "path": "services/homeguard-mcp" },
+    { "path": "apps/firetv" }
+  ]
+}

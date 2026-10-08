@@ -1,0 +1,23 @@
+{
+  "name": "@homesense/dashboard",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@homesense/alexa-adapter": "*",
+    "@homesense/event-model": "*",
+    "@homesense/policy": "*",
+    "@homesense/behavior-engine": "*",
+    "@homesense/ring-adapter": "*",
+    "@homesense/bee-adapter": "*",
+    "@modelcontextprotocol/sdk": "^1.30.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11"
+  }
+}

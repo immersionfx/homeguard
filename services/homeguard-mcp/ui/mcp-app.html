@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>HOMEGUARD Check-in</title>
+    <style>
+        :root {
+            color-scheme: dark;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            height: 100%;
+            background:
+                linear-gradient(rgba(11, 15, 20, 0.48), rgba(11, 15, 20, 0.22)),
+                url("./assets/background.jpg") center center / contain no-repeat fixed;
+            color: #f4f6f8;
+            font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .screen {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            padding: 32vh 24px 48px;
+            width: 33.333%;
+            margin-left: 182px;
+            max-width: 480px;
+            gap: 20px;
+            box-sizing: border-box;
+        }
+
+        .name {
+            font-size: 40px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .question {
+            font-size: 32px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .subtitle {
+            font-size: 22px;
+            color: #b7c0ca;
+            max-width: 440px;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            width: 100%;
+            max-width: 440px;
+            margin-top: 12px;
+        }
+
+        button {
+            font-size: 26px;
+            font-weight: 600;
+            padding: 22px 28px;
+            border-radius: 16px;
+            border: 3px solid transparent;
+            cursor: pointer;
+            background: #1c2733;
+            color: #f4f6f8;
+        }
+
+        button:focus,
+        button:hover {
+            outline: none;
+            border-color: #4ea1ff;
+            background: #223141;
+        }
+
+        .btn-ok {
+            background: #1f7a4d;
+        }
+
+        .btn-ok:focus,
+        .btn-ok:hover {
+            background: #26925c;
+        }
+
+        .btn-help {
+            background: #8a2b2b;
+        }
+
+        .btn-help:focus,
+        .btn-help:hover {
+            background: #a53434;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .result-icon {
+            font-size: 64px;
+        }
+
+        .dual-hint {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 19px;
+            color: #d1d9e2;
+            background: rgba(18, 25, 34, 0.75);
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            margin-top: 14px;
+            max-width: 440px;
+            width: 100%;
+        }
+
+        .hint-badge {
+            background: #2a3b4c;
+            color: #79b8ff;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-right: 4px;
+        }
+
+        .hint-sep {
+            color: #708090;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loading" class="screen">
+        <p class="subtitle">Loading…</p>
+    </div>
+
+    <div id="checkin" class="screen hidden">
+        <div class="name">MARIA</div>
+        <p class="question">Everything OK?</p>
+        <p class="subtitle" id="checkin-subtitle">
+            We noticed your evening is a little different today.
+        </p>
+        <div class="buttons">
+            <button id="btn-ok" class="btn-ok" tabindex="0">I'M OK</button>
+            <button id="btn-on-the-way" tabindex="0">I'M ON MY WAY HOME</button>
+            <button id="btn-help" class="btn-help" tabindex="0">I NEED HELP</button>
+        </div>
+
+        <div class="dual-hint">
+            <span><span class="hint-badge">Remote</span> Press <strong>OK</strong></span>
+            <span class="hint-sep">or</span>
+            <span><span class="hint-badge">Alexa</span> Say <em>"I'm fine"</em></span>
+        </div>
+    </div>
+
+    <div id="result" class="screen hidden">
+        <div class="result-icon" id="result-icon">✅</div>
+        <p class="question" id="result-text">Thanks, Maria.</p>
+        <p class="subtitle" id="result-subtitle"></p>
+    </div>
+
+    <script type="module" src="./mcp-app.ts"></script>
+</body>
+
+
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HOMEGUARD — Alexa+ Voice Channel Simulator</title>
+    <link rel="stylesheet" href="./src/echoStyle.css" />
+  </head>
+  <body>
+    <div class="sim-container">
+      <!-- Top Bar / Honesty Badge -->
+      <header class="sim-navbar">
+        <div class="brand-group">
+          <span class="echo-icon">🔘</span>
+          <span class="brand-title">HOMEGUARD</span>
+          <span class="device-name">Echo Show / Alexa+</span>
+        </div>
+        <div class="mode-badges">
+          <span class="badge mode-sim">Alexa+ SIMULATED</span>
+          <span class="badge mode-mcp" id="mcp-badge">MCP: Connecting…</span>
+        </div>
+      </header>
+
+      <!-- Main Two-Column Layout -->
+      <main class="sim-main">
+        <!-- Column 1: Physical Echo Device Frame -->
+        <section class="device-card">
+          <div class="device-header">
+            <h3>Living Room Echo Device</h3>
+            <span class="device-status-chip" id="device-state-label">IDLE</span>
+          </div>
+
+          <!-- Echo Hardware Visualizer with LED Ring -->
+          <div class="echo-hardware">
+            <!-- Glowing LED Light Ring -->
+            <div class="echo-light-ring ring-idle" id="light-ring">
+              <!-- Internal Speaker Grille & Face -->
+              <div class="echo-face">
+                <div class="echo-speaker-mesh"></div>
+
+                <!-- Center Mic / Activation Button -->
+                <button id="btn-mic-toggle" class="mic-button" title="Click to speak (Web Speech API)">
+                  <span class="mic-icon">🎙️</span>
+                </button>
+
+                <!-- Audio Waveform Visualization (animates when speaking) -->
+                <div class="waveform-container hidden" id="waveform">
+                  <div class="bar"></div>
+                  <div class="bar"></div>
+                  <div class="bar"></div>
+                  <div class="bar"></div>
+                  <div class="bar"></div>
+                  <div class="bar"></div>
+                  <div class="bar"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="device-caption">
+            <span>Primary Voice Check-in Channel · Canonical Far-field Speaker</span>
+          </div>
+        </section>
+
+        <!-- Column 2: Voice Interaction & MCP Controls -->
+        <section class="interaction-card">
+          <div class="interaction-header">
+            <h3>Alexa+ Voice Interaction (Maria's Home)</h3>
+            <span class="channel-chip">Channel: <code>alexa_voice</code></span>
+          </div>
+
+          <!-- Live Conversation Bubble Stream -->
+          <div class="dialog-stream" id="dialog-stream">
+            <div class="bubble alexa-bubble">
+              <span class="bubble-sender">Alexa+ (System)</span>
+              <p class="bubble-text" id="alexa-prompt-text">
+                "Maria, are you okay?"
+              </p>
+              <span class="bubble-tag">Canonical Prompt · Level 1 Verify</span>
+            </div>
+
+            <div class="bubble resident-bubble hidden" id="resident-bubble">
+              <span class="bubble-sender">Maria (Resident Voice)</span>
+              <p class="bubble-text" id="resident-reply-text">—</p>
+              <span class="bubble-tag" id="resident-intent-tag">Intent: —</span>
+            </div>
+          </div>
+
+          <!-- Quick Action Pills for 100% Deterministic Demo Capture -->
+          <div class="action-section">
+            <div class="section-label">
+              <span>Quick Actions (Demo & Video Recording)</span>
+            </div>
+            <div class="pill-group">
+              <button class="pill-btn pill-ok" id="btn-reply-fine">
+                <span>💬</span> "I'm fine, just resting" (OK)
+              </button>
+              <button class="pill-btn pill-help" id="btn-reply-help">
+                <span>🆘</span> "I need help" (Escalate)
+              </button>
+              <button class="pill-btn pill-trigger" id="btn-trigger-checkin">
+                <span>🔔</span> Trigger Voice Check-in
+              </button>
+              <button class="pill-btn pill-timeout" id="btn-trigger-timeout">
+                <span>⏳</span> Simulate Silence (45s)
+              </button>
+            </div>
+          </div>
+
+          <!-- Real MCP Server Tool Call Trace -->
+          <div class="trace-section">
+            <div class="section-label">
+              <span>Real MCP Tool Call Trace (<code id="trace-call-name">/mcp</code>)</span>
+              <span class="live-indicator">● LIVE</span>
+            </div>
+            <pre class="trace-code" id="trace-output">{ "status": "Ready", "waiting_for": "Voice check-in event" }</pre>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
