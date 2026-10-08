@@ -1,4 +1,4 @@
-# HomeSense / HOMEGUARD
+![HOMEGUARD](./docs/logo.png)
 
 **Submission to the Amazon Developer Hackathon 2026**
 - **Primary Track:** **Alexa+** (Agentic AI Reasoning & Voice Interaction)
@@ -14,6 +14,8 @@
 
 HOMEGUARD gives an Alexa+ agent situational awareness about an independent senior resident's daily routine (Maria, age 78).
 It learns her personal 30-day baseline, detects subtle behavioral anomalies (e.g. morning inactivity or abrupt cessation of TV interaction), verifies resident safety through low-friction ambient check-ins (Fire TV 10-foot screen & Echo voice), respects privacy via a strict server-enforced **Ring Gate**, and escalates to family caregivers only when necessary and always with explainable reasons.
+
+![HOMEGUARD](./docs/scenarios.png)
 
 ---
 
