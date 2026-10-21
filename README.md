@@ -1,21 +1,14 @@
 ![HOMEGUARD](./docs/logo.png)
 
-**Submission to the Amazon Developer Hackathon 2026**
-- **Primary Track:** **Alexa+** (Agentic AI Reasoning & Voice Interaction)
-- **Supporting Integrations:** **Fire TV** (Ambient Check-In UI via MCP Apps), **Ring** (Entrance Camera & Privacy-Gated Verification)
-- **Hardware Note:** Bee wearable is explicitly modeled via `MockBeeAdapter` (`mode: "mock"`).
-
-- **License:** see [`LICENSE`](./LICENSE)
-- **Submission polish:** see [`SUBMISSION.md`](./SUBMISSION.md) (about the project, how to run, features, MCP, friction log, product feedback), [`docs/architecture.md`](./docs/architecture.md), and [`docs/privacy.md`](./docs/privacy.md).
-
----
-
 ## What is HOMEGUARD?
 
-HOMEGUARD gives an Alexa+ agent situational awareness about an independent senior resident's daily routine (Maria, age 78).
-It learns her personal 30-day baseline, detects subtle behavioral anomalies (e.g. morning inactivity or abrupt cessation of TV interaction), verifies resident safety through low-friction ambient check-ins (Fire TV 10-foot screen & Echo voice), respects privacy via a strict server-enforced **Ring Gate**, and escalates to family caregivers only when necessary and always with explainable reasons.
+HomeGuard is an open-source wellbeing agent for people living alone. It brings together signals from a simulated Alexa+ experience, Fire TV, Ring, and an explicitly mocked Bee wearable through a shared, real MCP server. Instead of sending an alert whenever a sensor goes quiet, it learns a person’s routine and looks for meaningful changes. Then checks in with the resident before involving a caregiver.
 
 ![HOMEGUARD](./docs/scenarios.png)
+
+HomeGuard learns the resident's personal everyday baseline, detects subtle behavioral anomalies (e.g. morning inactivity or abrupt cessation of TV interaction), explains deviations in plain language and chooses whether to gather more context, ask the resident a question, or notify a caregiver. Check-ins can be answered to Alexa by voice or through Fire TV’s remote-friendly screen. A successful response resolves the incident; an unanswered check-in can lead to caregiver notification. Integrations are clearly labeled as real, simulated, or mocked.
+
+This matters because a quiet moment can be normal, or concerning, depending on the person and the context. HomeGuard aims to reduce false alarms and caregiver anxiety while respecting the resident’s privacy and independence. It checks the least intrusive channels first, does not make medical claims, accesses more information only when less intrusive information isn't enough and escalates only when the situation remains unresolved.
 
 ---
 
